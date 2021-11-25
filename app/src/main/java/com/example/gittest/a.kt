@@ -7,4 +7,6 @@ package com.example.gittest
  */
 class a {
     //ttttt
+    //ggood
+    //你好啊，this is rebase
 }
