@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             adapter = mainListAdapter
         }
 
-        lifecycleScope.launch {
+       lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mMainViewModel.listData.collectLatest {
                     mainListAdapter.submitData(it)
@@ -47,11 +47,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        lifecycleScope.launch {
+         lifecycleScope.launch {
             //或者flow调用flowWithLifecycle()也可以
                mMainViewModel.repeatTest(this).flowWithLifecycle(lifecycle,Lifecycle.State.STARTED).collectLatest {
 
            }
+        }
+
+        lifecycleScope.launch {
+            mMainViewModel.testStateFlow(this).flowWithLifecycle(lifecycle,Lifecycle.State.STARTED).collectLatest {
+
+            }
         }
     }
 }
