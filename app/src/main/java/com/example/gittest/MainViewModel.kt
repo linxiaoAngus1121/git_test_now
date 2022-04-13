@@ -9,6 +9,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 
 /**
@@ -42,8 +43,16 @@ class MainViewModel(private val repository: MainRepository): ViewModel(){
     //这样当我们app处于后台超过10秒，这样就能暂停flow发送数据，最正确的做法了
     suspend fun testStateFlow(coroutineScope: CoroutineScope): StateFlow<ApiResponse> {
         val apiResponse = ApiResponse(Support("", "", ""), mutableListOf(), 1, 1, 1, 1)
-        return repository.getMain(1).retryWhen { cause, attempt ->
+        return repository.getMain(1).retry(3){ cause-> //可以用这个实现重试次数，返回true代表需要重试，返回false就不需要重试，直接触发catch{},cause.cause我们可以根据类型判断本次是否需要重试
+            cause.cause
             true
+        }.retryWhen { cause, attempt ->     //也可以用retryWhen来判断，attempt为重试次数
+            delay(3000L)                        //实现重试延迟
+            val b = Looper.myLooper() == Looper.getMainLooper()
+            Log.d("000", "是否是主线程$attempt")
+            attempt<=3 //重试次数
+        }.flowOn(Dispatchers.IO).catch {
+            Log.d("000", "catch")
         }.stateIn(coroutineScope, SharingStarted.WhileSubscribed(10*1000),apiResponse)
     }
 }
