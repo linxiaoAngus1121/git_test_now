@@ -20,7 +20,7 @@ class HomePageDataSource(val service: IMainService) : PagingSource<Int, Data>() 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Data> {
         return try {
             val currentLoadingPageKey = params.key ?: 1
-            val listData = service.getListData(currentLoadingPageKey, 3)
+            val listData = service.getListData(currentLoadingPageKey, 20)
             val responseData = mutableListOf<Data>()
             val data = listData.myData
             responseData.addAll(data)

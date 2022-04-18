@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-         lifecycleScope.launch {
+       /*  lifecycleScope.launch {
             //或者flow调用flowWithLifecycle()也可以
                mMainViewModel.repeatTest(this).flowWithLifecycle(lifecycle,Lifecycle.State.STARTED).collectLatest {
 
@@ -58,6 +58,6 @@ class MainActivity : AppCompatActivity() {
             mMainViewModel.testStateFlow(this).flowWithLifecycle(lifecycle,Lifecycle.State.STARTED).collectLatest {
 
             }
-        }
+        }*/
     }
 }
