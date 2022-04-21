@@ -9,8 +9,4 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    //这是master分支新增的onRestart方法
-    override fun onRestart() {
-        super.onRestart()
-    }
 }
