@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.util.Log
 
 class MainActivity : AppCompatActivity() {
-    private val array = intArrayOf(1, 2, 5, 10, 4, 3, 100, 8, 12, 9, 7, 0, 1)
+
+    private val array = intArrayOf(1, 2, 5, 10, 4, 3,50, 100, 8, 12, 9, 7,8, 0, 1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        冒泡排序()
 //        选择排序()
-        快速排序(array,0,array.size-1)
+//        快速排序(array,0,array.size-1)
+        插入排序()
     }
 
 
@@ -80,5 +82,28 @@ class MainActivity : AppCompatActivity() {
         快速排序(array, left, i - 1)
         快速排序(array, i + 1, right)
         Log.d("000", "快速排序完的结果${array.joinToString()}")
+    }
+
+    //可以看作是分为2个数组，前面的数组是有序的，后面的是无序的，每次从无序数组中取出一个去插入到有序数组中，
+    // 最开始只有取第一个数当作第一个数组，这时候是有序的
+    //然后从i后面取一个，跟着前面已经排好序的对比，大的话就交互位置
+    fun 插入排序() {
+        var i = 1
+        var temp: Int
+        var j: Int
+        while (i < array.size) {
+            temp = array[i]  //当前i指向的值
+            j = i - 1   //从0到当前位置的前一个，所以是i-1
+            for (index in 0..j) {   //当前的temp跟0..到当前位置的前一个的大小
+                if (temp < array[index]) {
+                    val local = array[index]
+                    array[index] = temp
+                    temp = local
+                }
+            }
+            array[i] = temp //当前i位置的值，因为上面经历了for循环后，最大的值是给了temp,这里得让i位置的值变成temp,让最大的值处于这次循环中的最后面
+            i++
+        }
+        Log.d("000", "选择排序完的结果${array.joinToString()}")
     }
 }
