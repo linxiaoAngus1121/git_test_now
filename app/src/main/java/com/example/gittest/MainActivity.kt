@@ -3,17 +3,20 @@ package com.example.gittest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import java.util.*
+import kotlin.math.floor
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
 
-    private val array = intArrayOf(1, 2, 5, 10, 4, 3,50, 100, 8, 12, 9, 7,8, 0, 1)
+    private val array = intArrayOf(1, 2, 5, 10, 4, 3, 50, 100, 8, 12, 9, 7, 8, 0, 1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        冒泡排序()
 //        选择排序()
 //        快速排序(array,0,array.size-1)
-        插入排序()
+//        插入排序()
+        合并排序()
     }
 
 
@@ -105,5 +108,72 @@ class MainActivity : AppCompatActivity() {
             i++
         }
         Log.d("000", "选择排序完的结果${array.joinToString()}")
+    }
+
+    //将数组拆分成一半一半进行对比，最后合回来就是整个有序的数组了
+    fun 合并排序() {
+        val sort = sort(array)
+        Log.d("000", "合并排序完的结果${sort.joinToString()}")
+    }
+
+
+    fun sort(sourceArray: IntArray): IntArray {
+        // 对 arr 进行拷贝，不改变参数内容
+        val arr = sourceArray.copyOf(sourceArray.size)
+        if (arr.size < 2) {
+            return arr
+        }
+        val middle = floor((arr.size / 2).toDouble()).toInt()
+        val left = arr.copyOfRange(0, middle)
+        val right = arr.copyOfRange(middle, arr.size)
+        return merge(sort(left), sort(right))
+    }
+
+    private fun merge(left: IntArray, right: IntArray): IntArray {
+        var left = left
+        var right = right
+        val result = IntArray(left.size + right.size)
+        var i = 0
+        while (left.isNotEmpty() && right.isNotEmpty()) {
+            if (left[0] <= right[0]) {
+                result[i++] = left[0]
+                left = left.copyOfRange(1, left.size)
+            } else {
+                result[i++] = right[0]
+                right = right.copyOfRange(1, right.size)
+            }
+        }
+        while (left.isNotEmpty()) {
+            result[i++] = left[0]
+            left = left.copyOfRange(1, left.size)
+        }
+        while (right.isNotEmpty()) {
+            result[i++] = right[0]
+            right = right.copyOfRange(1, right.size)
+        }
+        return result
+
+        /*    var left = left
+            var right = right
+            val result = IntArray(left.size + right.size)
+            var i = 0
+            while (left.isNotEmpty() && right.isNotEmpty()) {
+                if (left[0] <= right[0]) {
+                    result[i++] = left[0]
+                    left = left.copyOfRange(1, left.size)
+                } else {
+                    result[i++] = right[0]
+                    right = right.copyOfRange(1, right.size)
+                }
+            }
+            while (left.isNotEmpty()) {
+                result[i++] = left[0]
+                left = left.copyOfRange(1, left.size)
+            }
+            while (right.isNotEmpty()) {
+                result[i++] = right[0]
+                right = right.copyOfRange(1, right.size)
+            }
+            return result*/
     }
 }
