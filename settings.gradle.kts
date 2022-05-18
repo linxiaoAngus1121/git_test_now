@@ -7,4 +7,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "GitTest"
-include ':app'
+include(":app")
