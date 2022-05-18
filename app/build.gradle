@@ -1,11 +1,31 @@
+import javax.inject.Inject
+import java.util.function.Consumer
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
 
+ext {
+    userName = "sdfds"
+}
+println "use name ${userName}"
 android {
     compileSdk 31
 
+    def list=[1,2,3,5,9,9]
+    def map=['name':'Groovy','age':1]
+
+//    println '最后一个元素：'+list[-1]//访问最后一个元素
+//    println '倒数第二个元素：'+list[-2]//访问倒数第二个元素，以此类推
+//    println '某个范围内元素：'+list[2..4]//访问某个范围内元素，以此类推
+    println "${map.name}"
+    list.forEach(new Consumer<Integer>() {
+        @Override
+        void accept(Integer integer) {
+            println "${integer}"
+        }
+    })
     defaultConfig {
         applicationId "com.example.gittest"
         minSdk 21
@@ -29,6 +49,65 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    //创建Task的几种常见写法
+    task myTask1 {
+        doLast {
+            println "doLast in task1"
+        }
+    }
+
+    /**
+     *  task releatTask(description("这是releatTask的描述"),group("myTaskGroup"),description(myTask1)){println "sdf"}*/
+
+
+    //采用 Project.task(String name) 方法来创建
+    project.task("myTask3").doLast {
+        println "doLast in task3"
+    }
+
+    //采用 TaskContainer.create(String name) 方法来创建
+    project.tasks.create("myTask4").doLast {
+        println "doLast in task4"
+    }
+
+    project.tasks.create("myTask5") {
+        println "doLast in task5"
+    }
+
+
+    /**
+     * 一个 Task 是由一序列 Action (动作)组成的，
+     * 当运行一个 Task 的时候，这个 Task 里的 Action 序列会按顺序依次执行。
+     * 前面例子括号里的代码只是配置代码，它们并不是 Action ，
+     * Task 里的 Action 只会在该 Task 真正运行时执行，Gralde 里通过
+     * doFirst、doLast 来为 Task 增加 Action
+     */
+    task firstName {
+        //加上了doFirst，doLast其实是对应gradle一个action的概念
+        doFirst {
+            println "this is doFirst"
+        }
+    }
+
+    task firstName1 {
+
+    }
+    firstName1.doLast {
+        println "firstName1 doLast"
+    }
+    /* 等价于上面doLast的写法，但是我这编译不过，不知道是不是gradle版本的问题
+     firstName1 << {
+          println "firstName1 doLast<<"
+      }
+      firstName1.leftShift  {
+          println "firstName1 doLast leftShift"
+      }*/
+
+    //这种属于配置代码，是执行在gradle配置阶段的,所以即使你不调用这个secondName，她也一样会执行
+    task secondName {
+        println "this is secondName"
+    }
 }
 
 dependencies {
@@ -40,4 +119,146 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
+
+task stringTest {
+
+}
+
+task hello2(type: SayHelloTask, constructorArgs: [20], group: "sdf", description: "this is descriptionAAAA")
+
+hello2.configure {
+    println "AAA"
+    age = 78
+}
+//println "task name is ${hello2.getName()}"
+//println "task group is ${hello2.getGroup()}"
+//println "task description is ${hello2.getDescription()}"
+
+//设置依赖的task，只有firstName task执行完后才会执行hello task
+//hello2.description(firstName)
+
+//设置终结者任务，执行完hello2 task之后会执行firstName task，通常可以用该方法做一些清理操作
+//hello2.finalizedBy(firstName)
+
+
+//设置满足某个条件后才执行该task
+hello2.setOnlyIf {
+    //只有当 age = 70 时，才会执行task，否则不会执行
+    return hello2.property("age") > 70
+}
+
+//当有task创建时
+/*
+getTasks().whenTaskAdded { Task task->
+    println "The task ${task.getName()} is added to the TaskContainer"
+}
+*/
+
+def dir = getBuildDir()
+println "this is getAbsolutePath ${dir.getAbsolutePath()}"
+
+String name = getName()
+println "project name = $name"
+
+//获取Project的路径
+String path = getPath();
+println "project path = $path"
+
+File mkDir = mkdir("${buildDir}/test")
+println "检测目录是否创建成功：${mkDir.exists()}}"
+
+//创建文件
+file("${buildDir}/test/createFromDaima.txt").createNewFile()
+
+FileCollection fileCollection = files("${buildDir}/test")
+fileCollection.forEach(new Consumer<File>() {
+    @Override
+    void accept(File file) {
+        println file.name
+    }
+})
+def fileTree = fileTree("build")
+//添加包含规则
+fileTree.include {
+    "*.txt"
+}
+
+fileTree.exclude {
+    "*.java"
+}
+
+fileTree.forEach(new Consumer<File>() {
+    @Override
+    void accept(File file) {
+//        println "this is guo lv ${file.name}"
+    }
+})
+
+//自定义任务
+class SayHelloTask extends DefaultTask {
+    @Input
+    int age
+
+    @Inject
+    SayHelloTask(int age) {
+        this.age = age
+    }
+
+    @TaskAction
+    void sayHello() {
+        println "Hello age is ${age}"
+    }
+}
+
+//这种就跟我们上面写的
+// android{
+//  xxx
+// }
+class MyExtension {
+    int age
+    String username
+    InnerExt innerExt = new InnerExt()
+
+    //创建内部Extension，名称为方法名 inner
+    void inner(Action<InnerExt> action) {
+        action.execute(innerExt)
+    }
+
+    String toString() {
+        return "OuterExt[ name = ${username}, msg = ${age}] " + innerExt
+    }
+}
+
+class InnerExt {
+    String innerName
+    String msg
+
+
+    void innerName(String name) {
+        innerName = name
+    }
+
+    void msg(String msg) {
+        this.msg = msg
+    }
+
+    String toString() {
+        return "InnerExt[ name = ${innerName}, msg = ${msg}]"
+    }
+}
+
+//这几种方法都可以
+//getExtensions().create("foo",MyExtension)
+getExtensions().add("foo", MyExtension)
+//getExtensions().add(MyExtension,"foo",new MyExtension())
+foo {
+    age = 111
+    username = "hjy"
+    inner {
+        innerName = "innerName"
+    }
+}
+task taskExte {
+    println project.foo
 }
