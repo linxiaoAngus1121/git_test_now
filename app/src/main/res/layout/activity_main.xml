@@ -6,5 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/wechat"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/touming"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="补间动画--透明度"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/pingyi"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="补间动画--平移"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/touming" />
+
+
+    <Button
+        android:id="@+id/xuanzhuan"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="补间动画--旋转"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pingyi" />
+
+
+    <Button
+        android:id="@+id/suofang"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="补间动画--缩放"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/xuanzhuan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="2000">
+    <translate
+        android:fromXDelta="50%"
+        android:fromYDelta="0"
+        android:toXDelta="90%p"
+        android:toYDelta="0" />
+</set>
+
+
+    <!--
+    fromXDelta=0 或者fromYDelta=0 的话，代表就是view本身在哪就从哪开始，fromXDelta=0就是view的最左边  fromYDelta=0最顶端
+    fromXDelta=150 的话 ，代表就是从距离view左边150再开始，这样会导致动画开始前，view先跳到view左边+150的位置，然后再开始动画
+    fromYDelta跟fromXDelta同理
+     android:toYDelta="100"的话 ，代表往下移动100，数值是负的，那就是往上
+
+
+   android:toXDelta="50%"       50%代表从fromXDelta移动到view本身宽度的50%
+    android:toYDelta="90%"      90%代表从fromYDelta移动到view本身高度的90%
+
+    如果  android:fromYDelta="50%"  android:toYDelta="90%"
+    这个时候是从view高度的50%开始，移动到view高度的90%位置，而不是移动view高度90%的距离，这里需要注意
+    x轴的也同理
+
+     android:toYDelta="50%p" 代表从fromYDelta移动到父view高度的50%，比如父view是屏幕的高度，那就是屏幕高度的一半
+
+
+
+    -->

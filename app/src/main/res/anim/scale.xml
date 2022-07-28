@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" android:duration="5000">
+    <scale
+        android:fromXScale="0.0"
+        android:fromYScale="0.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1.0"
+        android:toYScale="1.0" />
+
+    <!--
+       android:pivotX="50%"
+        android:pivotY="50%"
+
+       这个还是跟旋转那里一样的解释
+        android:fromXScale="0.5"
+        android:fromYScale="0.5"
+       缩放开始时的比例，x轴开始的比例，y轴开始的比例
+
+        android:toXScale="1.0"
+        android:toYScale="1.0"
+        1.0就是刚好view本身的大小
+
+        其他的自己调整即可
+    -->
+
+</set>

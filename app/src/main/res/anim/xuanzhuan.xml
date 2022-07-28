@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="5000">
+    <rotate
+        android:fromDegrees="90"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toDegrees="180" />
+</set>
+
+
+    <!--
+            android:pivotX="50%"
+            android:pivotY="50%"
+            这两种最好理解，就是view本身的宽高的50%，这个时候就是view的中间点而已
+
+
+           android:pivotX="50"
+            android:pivotY="50"
+            这种就是具体的数值，左上角x,y各+50那个点就是旋转中心了
+
+              android:pivotX="50%p"
+        android:pivotY="50%p"
+            这种是当前的左上角加上父控件宽度的 50% 作为起始点 x 轴坐标
+
+        android:toDegrees="180" 顺时针转180°
+
+    -->
+
