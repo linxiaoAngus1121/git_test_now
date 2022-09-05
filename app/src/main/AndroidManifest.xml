@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GitTest">
         <activity
-            android:name=".MainActivity"
+            android:name=".Mainac"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
