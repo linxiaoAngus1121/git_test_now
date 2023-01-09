@@ -15,3 +15,4 @@
           val fontMetrics = mTextPaint.fontMetricsInt
         val baseline = (mTextBackRect.bottom + mTextBackRect.top - fontMetrics.bottom - fontMetrics.top) / 2
         canvas.drawText(fl, mTextBackRect.centerX(), baseline, mTextPaint)
+        5.滑动的时候，如果不响应down事件（即onTouchEvent返回了false,那其实move也就不会触发了）
