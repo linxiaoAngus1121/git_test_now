@@ -1,13 +1,23 @@
+import com.example.gittest.Hhhh
+
 import javax.inject.Inject
 import java.util.function.Consumer
-
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'my-plugin'
 }
 
+
+gradle.buildFinished {
+    println '所有的都执行完毕'
+}
 ext {
     userName = "sdfds"
+}
+myExtensionInfo {
+    host = "192.168.1.1"
+    port = 213
 }
 println "use name ${userName}"
 android {
@@ -157,6 +167,7 @@ getTasks().whenTaskAdded { Task task->
 
 def dir = getBuildDir()
 println "this is getAbsolutePath ${dir.getAbsolutePath()}"
+println "rootProject.ext.bbb${rootProject.ext.bbb}"
 
 String name = getName()
 println "project name = $name"
@@ -247,6 +258,7 @@ class InnerExt {
         return "InnerExt[ name = ${innerName}, msg = ${msg}]"
     }
 }
+
 
 //这几种方法都可以
 //getExtensions().create("foo",MyExtension)
